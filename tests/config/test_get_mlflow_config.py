@@ -3,8 +3,8 @@ import yaml
 from kedro.framework.session import KedroSession
 from kedro.framework.startup import bootstrap_project
 
-from kedro_mlflow.framework.context import get_mlflow_config
-from kedro_mlflow.framework.context.config import KedroMlflowConfigError
+from kedro_mlflow.config import get_mlflow_config
+from kedro_mlflow.config.kedro_mlflow_config import KedroMlflowConfigError
 
 
 def _write_yaml(filepath, config):
@@ -43,7 +43,7 @@ def test_get_mlflow_config(kedro_project):
         "mlflow_tracking_uri": (kedro_project / "mlruns").as_uri(),
         "credentials": None,
         "disable_tracking": {"pipelines": ["my_disabled_pipeline"]},
-        "experiments": {"name": "fake_package", "create": True},
+        "experiment": {"name": "fake_package", "create": True},
         "run": {"id": "123456789", "name": "my_run", "nested": True},
         "ui": {"port": "5151", "host": "localhost"},
         "hooks": {
@@ -58,7 +58,7 @@ def test_get_mlflow_config(kedro_project):
 
     bootstrap_project(kedro_project)
     with KedroSession.create(project_path=kedro_project):
-        assert get_mlflow_config().to_dict() == expected
+        assert get_mlflow_config().dict(exclude={"project_path"}) == expected
 
 
 def test_get_mlflow_config_in_uninitialized_project(kedro_project):
@@ -109,7 +109,7 @@ def test_mlflow_config_with_templated_config_loader(
         "mlflow_tracking_uri": (kedro_project_with_tcl / "dynamic_mlruns").as_uri(),
         "credentials": None,
         "disable_tracking": {"pipelines": ["my_disabled_pipeline"]},
-        "experiments": {"name": "fake_package", "create": True},
+        "experiment": {"name": "fake_package", "create": True},
         "run": {"id": "123456789", "name": "my_run", "nested": True},
         "ui": {"port": "5151", "host": "localhost"},
         "hooks": {
@@ -123,4 +123,4 @@ def test_mlflow_config_with_templated_config_loader(
     }
     bootstrap_project(kedro_project_with_tcl)
     with KedroSession.create(project_path=kedro_project_with_tcl):
-        assert get_mlflow_config().to_dict() == expected
+        assert get_mlflow_config().dict(exclude={"project_path"}) == expected
