@@ -1,7 +1,7 @@
 # GLOBAL CONFIGURATION -------------------
 
 # `mlflow_tracking_uri` is the path where the runs will be recorded.
-# For more informations, see https://www.mlflow.org/docs/latest/tracking.html#where-runs-are-recorded
+# For more information, see https://www.mlflow.org/docs/latest/tracking.html#where-runs-are-recorded
 # kedro-mlflow accepts relative path from the project root.
 # For instance, default `mlruns` will create a mlruns folder
 # at the root of the project
@@ -54,4 +54,4 @@ hooks:
 
 ui:
   port: "5000" # the port to use for the ui. Use mlflow default with 5000.
-  host: "127.0.0.1"  # the host to use for the ui. Use mlflow efault of "127.0.0.1".
+  host: "127.0.0.1"  # the host to use for the ui. Use mlflow default of "127.0.0.1".
